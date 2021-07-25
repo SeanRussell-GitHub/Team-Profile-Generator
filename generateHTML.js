@@ -1,14 +1,14 @@
 
 function generateManagers(manager){
-
+    return ``;
 }
 
 function generateEngineers(engineer){
-
+    return ``;
 }
 
 function generateInterns(intern){
-
+    return ``;
 }
 
 
