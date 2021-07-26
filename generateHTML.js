@@ -1,14 +1,14 @@
 
 function generateManagers(manager){
-    return ``;
+    return `${manager.role}`;
 }
 
 function generateEngineers(engineer){
-    return ``;
+    return `${engineer.role}`;
 }
 
 function generateInterns(intern){
-    return ``;
+    return `${intern.role}`;
 }
 
 
@@ -22,13 +22,23 @@ function generateHTML(managers, engineers, interns){
     <title>Document</title>
 </head>
 <body>
-    
-</body>
+    <header>
+        <div>
+            <h2>Manager</h2>
+            ${managers.map(generateManagers)}
+        </div>
+        <div>
+            <h2>Engineers</h2> 
+            ${engineers.map(generateEngineers)}
+        </div>
+        <div>
+            <h2>Interns</h2> 
+            ${interns.map(generateInterns)}
+        </div>
+        </body>
 </html>    
     `
 }
-
-
 
 
 

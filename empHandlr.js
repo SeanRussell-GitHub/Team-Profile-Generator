@@ -1,5 +1,5 @@
 const inquirer = require('inquirer');
-
+const fs = require('fs');
 const generateHTML = require('./generateHTML');
 
 // const employee = new Employee();
@@ -81,6 +81,11 @@ class Intern extends Employee{
 }
 
 
+function writeToFile() {
+    fs.writeFile("index.html", "ugh", 
+    (err) => err ? console.error(err) : console.log("HTML has been generated."))
+}
+
     
 promptForManager = async () => {
         const responses = await inquirer.prompt([
@@ -110,7 +115,7 @@ promptForManager = async () => {
         if (responses.continue === 'Yes') {
             promptEmpInfo();
         } else if (responses.continue === 'No') {
-            exit;
+            writeToFile();
         }
 }
     
@@ -177,7 +182,7 @@ promptIntInfo = async () => {
         if (responses.continue === 'Yes') {
             promptEmpInfo();
         } else if (responses.continue === 'No') {
-            exit;
+            writeToFile();
         }
 }
 
