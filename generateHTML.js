@@ -24,20 +24,28 @@ function generateHTML(manager, engineer, intern) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title> Team Profile </title>
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
-<body>
+<body style="background-color:#DEB887">
+    <p class="title">    MY TEAM    </p>
     <header>
-        <div>
+    <div class="column">
+        <div class="card">
             ${manager.map(generateEmployees).join('')}
         </div>
-        <div>
+    </div>
+    <div class="column">    
+        <div class="card">
             ${engineer.map(generateEmployees).join('')}
         </div>
-        <div>
+    </div>
+    <div class="column">
+        <div class="card">
             ${intern.map(generateEmployees).join('')}
         </div>
-        </body>
+    </div>    
+    </body>
 </html>    
     `
 }
