@@ -1,11 +1,9 @@
-const {Manager} = require('../index')
-const jest = require('jest');
-const inquirer = require('inquirer');
+const { Manager } = require('../empHandlr');
 
 describe('Manager Tests', () => {
     it('has a getRole() function', () => {
-    
-        const karen = new Manager('Karen', 'karen@email.com', '1');
-    expect(karen.getRole).toBe('Manager')
-        })
+
+        const karen = new Manager('Karen', 'karen@email.com', '1', 'Manager');
+        expect(karen.getRole()).toBe('Manager')
     })
+})

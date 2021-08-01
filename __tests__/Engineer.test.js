@@ -1,7 +1,8 @@
-const {Engineer} = require('../index')
-const jest = require('jest');
-const inquirer = require('inquirer');
+const { Engineer } = require('../empHandlr');
 
 describe('Engineer Tests', () => {
-    it('')
+    it('has a getRole() function', () => {
+        const karen = new Engineer('Karen', 'karen@email.com', '1', 'Engineer');
+        expect(karen.getRole()).toBe('Engineer')
+    })
 })

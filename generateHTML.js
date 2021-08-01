@@ -3,13 +3,21 @@ const managersArr = empHandlr.managersArr;
 const engineersArr = empHandlr.engineersArr;
 const internsArr = empHandlr.internsArr;
 
-
-function generateEmployees(employee){
-    return `<h1>${employee.role}<h1><ul><li>${employee.name}</li><li></li></ul>`;
+function specificEmployeeHandler(employee) {
+    if (employee.role === 'Manager') {
+        return `Office Number: ${employee.officeNum}`;
+    } else if (employee.role === 'Engineer') {
+        return `Github: <a href="https://www.github.com/${employee.github}">${employee.github}</a>`;
+    } else if (employee.role === 'Intern') {
+        return `School: ${employee.school}`;
+    }
 }
 
+function generateEmployees(employee) {
+    return `<h1>${employee.role}</h1><ul><li>Name: ${employee.name}</li><li>Email: <a href="mailto:${employee.email}">${employee.email}</a></li><li>Employee ID: ${employee.id}</li><li>${specificEmployeeHandler(employee)}</li></ul>`;
+}
 
-function generateHTML(manager, engineer, intern){
+function generateHTML(manager, engineer, intern) {
     return `<!DOCTYPE html>
     <html lang="en">
 <head>
@@ -21,23 +29,18 @@ function generateHTML(manager, engineer, intern){
 <body>
     <header>
         <div>
-            <h2>Manager</h2>
-            ${manager.map(generateEmployees)}
+            ${manager.map(generateEmployees).join('')}
         </div>
         <div>
-            <h2>Engineers</h2> 
-            ${engineer.map(generateEmployees)}
+            ${engineer.map(generateEmployees).join('')}
         </div>
         <div>
-            <h2>Interns</h2> 
-            ${intern.map(generateEmployees)}
+            ${intern.map(generateEmployees).join('')}
         </div>
         </body>
 </html>    
     `
 }
-
-
 
 module.exports = {
     generateHTML

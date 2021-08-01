@@ -2,141 +2,153 @@ const inquirer = require('inquirer');
 const fs = require('fs');
 const generateHTML = require('./generateHTML');
 
-// const employee = new Employee();
 let managersArr = [];
 let engineersArr = [];
 let internsArr = [];
 
-class Employee{
-        constructor(name, email, id, role){
-            this.name = name;
-            this.email = email;
-            this.id = id;
-            this.role = role;
-        }
-        getName(){
-            return this.name;
-        }
-        getEmail(){
-            return this.email;
-        }
-        getId(){
-            return this.id;
-        }
-        getRole(){
-            return this.role;
-        }
-}
-    
-    
-class Manager extends Employee{
-        constructor(name, email, id, role, officeNum){
-            super(name, email, id, role);
-            this.officeNum = officeNum;
-        }
-        getRole(){
-            return this.role;
-        }
-        getOfficeNum(){
-            return this.officeNum;
-        }
-}
-
-class Engineer extends Employee{
-    constructor(name, email, id, github){
-        super(name, email, id);
-        this.github = github;
+class Employee {
+    constructor(name, email, id, role) {
+        this.name = name;
+        this.email = email;
+        this.id = id;
+        this.role = role;
     }
-        getRole(){
-            return this.role;
-        }
-        getGithub(){
-            return this.github;
-        }
-}
-
-class Intern extends Employee{
-    constructor(name, email, id, school){
-        super(name, email, id);
-        this.school = school;
+    getName() {
+        return this.name;
     }
-    getRole(){
+    getEmail() {
+        return this.email;
+    }
+    getId() {
+        return this.id;
+    }
+    getRole() {
         return this.role;
     }
-    getSchool(){
+}
+
+class Manager extends Employee {
+    constructor(name, email, id, role, officeNum) {
+        super(name, email, id, role);
+        this.officeNum = officeNum;
+    }
+    getRole() {
+        return this.role;
+    }
+    getOfficeNum() {
+        return this.officeNum;
+    }
+}
+
+class Engineer extends Employee {
+    constructor(name, email, id, role, github) {
+        super(name, email, id, role);
+        this.github = github;
+    }
+    getRole() {
+        return this.role;
+    }
+    getGithub() {
+        return this.github;
+    }
+}
+
+class Intern extends Employee {
+    constructor(name, email, id, role, school) {
+        super(name, email, id, role);
+        this.school = school;
+    }
+    getRole() {
+        return this.role;
+    }
+    getSchool() {
         return this.school;
     }
 }
 
-
 function writeToFile() {
-    fs.writeFile("index.html", generateHTML, 
-    (err) => err ? console.error(err) : console.log("HTML has been generated."))
+    fs.writeFile("index.html", generateHTML,
+        (err) => err ? console.error(err) : console.log("HTML has been generated."))
 }
 
-    
-function userInput(){
+function userInput() {
     return inquirer.prompt([
-        {name: 'lastEntry',
-        message: 'Will this be your last employee entry?',
-        type: 'confirm',}
+        {
+            name: 'lastEntry',
+            message: 'Will this be your last employee entry?',
+            type: 'confirm',
+        }
     ])
 }
 
-function promptForEmployee(){
+function promptForEmployee() {
     return inquirer.prompt([
-        {name: 'role',
-        message: 'What type of employee are you submitting?',
-        type: 'list',
-        choices: ["Manager", "Engineer", "Intern"]},
-        {name: 'name',
-        message: 'What is their name?',
-        type: 'input',},
-        {name: 'email',
-        message: 'What is their email?',
-        type: 'input',},
-        {name: 'id',
-        message: 'What is their employee ID?',
-        type: 'input',},
+        {
+            name: 'role',
+            message: 'What type of employee are you submitting?',
+            type: 'list',
+            choices: ["Manager", "Engineer", "Intern"]
+        },
+        {
+            name: 'name',
+            message: 'What is their name?',
+            type: 'input',
+        },
+        {
+            name: 'email',
+            message: 'What is their email?',
+            type: 'input',
+        },
+        {
+            name: 'id',
+            message: 'What is their employee ID?',
+            type: 'input',
+        },
     ])
 }
 
-function promptForManager(){
+function promptForManager() {
     return inquirer.prompt([
-        {name: 'officeNum',
-        message: 'What is their Office Number?',
-        type: 'input',},
+        {
+            name: 'officeNum',
+            message: 'What is their Office Number?',
+            type: 'input',
+        },
     ])
 }
 
-function promptForEngineer(){
+function promptForEngineer() {
     return inquirer.prompt([
-        {name: 'github',
-        message: 'What is their GitHub username?',
-        type: 'input',},
+        {
+            name: 'github',
+            message: 'What is their GitHub username?',
+            type: 'input',
+        },
     ])
 }
 
-function promptForIntern(){
+function promptForIntern() {
     return inquirer.prompt([
-        {name: 'school',
-        message: 'What school are they going to?',
-        type: 'input',},
+        {
+            name: 'school',
+            message: 'What school are they going to?',
+            type: 'input',
+        },
     ])
 }
 
-async function handleEmployee(){
+async function handleEmployee() {
     let employeeAnswers = await promptForEmployee();
     let newEmployee = new Employee(employeeAnswers.name, employeeAnswers.email, employeeAnswers.id, 'Employee');
-    if (employeeAnswers.role==='Manager') {
+    if (employeeAnswers.role === 'Manager') {
         let managerAnswers = await promptForManager();
         let newManager = new Manager(employeeAnswers.name, employeeAnswers.email, employeeAnswers.id, employeeAnswers.role, managerAnswers.officeNum);
         managersArr.push(newManager);
-    } else if (employeeAnswers.role==='Engineer') {
+    } else if (employeeAnswers.role === 'Engineer') {
         let engineerAnswers = await promptForEngineer();
         let newEngineer = new Engineer(employeeAnswers.name, employeeAnswers.email, employeeAnswers.id, employeeAnswers.role, engineerAnswers.github);
         engineersArr.push(newEngineer);
-    } else if (employeeAnswers.role==='Intern') {
+    } else if (employeeAnswers.role === 'Intern') {
         let internAnswers = await promptForIntern();
         let newIntern = new Intern(employeeAnswers.name, employeeAnswers.email, employeeAnswers.id, employeeAnswers.role, internAnswers.school);
         internsArr.push(newIntern);
@@ -151,22 +163,13 @@ async function handleEmployee(){
     }
 }
 
-handleEmployee();
-
-// const karen = new Manager('Karen', 'karen@email.com','1');
-// console.log(karen);
-
-
 module.exports = {
     Manager,
     Intern,
     Employee,
     Engineer,
-    managersArr, 
+    managersArr,
     engineersArr,
-    internsArr
+    internsArr,
+    handleEmployee
 }
-
-// prompt for info
-// promptEmpInfo();
-// generate website with it
