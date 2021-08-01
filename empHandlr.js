@@ -3,21 +3,9 @@ const fs = require('fs');
 const generateHTML = require('./generateHTML');
 
 // const employee = new Employee();
-
-// let employeeArr = [];
-// let managersArr = [];
-// let engineersArr = [];
-// let internsArr = [];
-
-class Team{
-    constructor(manager, engineers, interns){
-        manager = '';
-        engineers = [];
-        interns = [];
-    };
-    promptForManager(){
-    }
-}
+let managersArr = [];
+let engineersArr = [];
+let internsArr = [];
 
 class Employee{
         constructor(name, email, id, role){
@@ -82,125 +70,103 @@ class Intern extends Employee{
 
 
 function writeToFile() {
-    fs.writeFile("index.html", "ugh", 
+    fs.writeFile("index.html", generateHTML, 
     (err) => err ? console.error(err) : console.log("HTML has been generated."))
 }
 
     
-promptForManager = async () => {
-        const responses = await inquirer.prompt([
-            {
-                name: 'name',
-                message: 'What is your name?',
-                type: 'input'
-            }, {
-                name: 'id',
-                message: 'What is your employee id number?',
-                type: 'input'
-            }, {
-                name: 'email',
-                message: 'What is your employee email address?',
-                type: 'input'
-            }, {
-                name: 'officeNum',
-                message: 'What is your office number?',
-                type: 'input'
-            }, {
-                name: 'continue',
-                message: 'Would you like to add another employee?',
-                type: 'list',
-                choices: ['Yes', 'No']
-            }
-        ]);
-        if (responses.continue === 'Yes') {
-            promptEmpInfo();
-        } else if (responses.continue === 'No') {
-            writeToFile();
-        }
-}
-    
-promptEmpInfo = async () => {
-        const responses = await inquirer.prompt([
-            {
-                name: 'name',
-                message: 'What is the name of the employee?',
-                type: 'input'
-            }, {
-                name: 'id',
-                message: 'What is their employee id number?',
-                type: 'input'
-            }, {
-                name: 'email',
-                message: 'What is their email address?',
-                type: 'input'
-            }, {
-                name: 'role',
-                message: 'What is the role of this employee?',
-                type: 'list',
-                choices: ['Engineer', 'Intern']
-            }
-        ]);
-        if (responses.role === 'Engineer') {
-            promptEngInfo();
-        } else if (responses.role === 'Intern') {
-            promptIntInfo();
-        }
+function userInput(){
+    return inquirer.prompt([
+        {name: 'lastEntry',
+        message: 'Will this be your last employee entry?',
+        type: 'confirm',}
+    ])
 }
 
-promptEngInfo = async () => {
-    const responses = await inquirer.prompt([
-        {
-            name: 'github',
-            message: 'What is your Git Hub user name?',
-            type: 'input'
-        }, {
-            name: 'continue',
-            message: 'Would you like to add another employee?',
-            type: 'list',
-            choices: ['Yes', 'No']
-        }
-    ]);
-    if (responses.continue === 'Yes') {
-        promptEmpInfo();
-    } else if (responses.continue === 'No') {
-        console.log('DONE');
-    }}
-
-promptIntInfo = async () => {
-        const responses = await inquirer.prompt([
-            {
-                name: 'school',
-                message: 'What school are you currently enrolled in?',
-                type: 'input'
-            }, {
-                name: 'continue',
-                message: 'Would you like to add another employee?',
-                type: 'list',
-                choices: ['Yes', 'No']
-            }
-        ]);
-        if (responses.continue === 'Yes') {
-            promptEmpInfo();
-        } else if (responses.continue === 'No') {
-            writeToFile();
-        }
+function promptForEmployee(){
+    return inquirer.prompt([
+        {name: 'role',
+        message: 'What type of employee are you submitting?',
+        type: 'list',
+        choices: ["Manager", "Engineer", "Intern"]},
+        {name: 'name',
+        message: 'What is their name?',
+        type: 'input',},
+        {name: 'email',
+        message: 'What is their email?',
+        type: 'input',},
+        {name: 'id',
+        message: 'What is their employee ID?',
+        type: 'input',},
+    ])
 }
 
+function promptForManager(){
+    return inquirer.prompt([
+        {name: 'officeNum',
+        message: 'What is their Office Number?',
+        type: 'input',},
+    ])
+}
+
+function promptForEngineer(){
+    return inquirer.prompt([
+        {name: 'github',
+        message: 'What is their GitHub username?',
+        type: 'input',},
+    ])
+}
+
+function promptForIntern(){
+    return inquirer.prompt([
+        {name: 'school',
+        message: 'What school are they going to?',
+        type: 'input',},
+    ])
+}
+
+async function handleEmployee(){
+    let employeeAnswers = await promptForEmployee();
+    let newEmployee = new Employee(employeeAnswers.name, employeeAnswers.email, employeeAnswers.id, 'Employee');
+    if (employeeAnswers.role==='Manager') {
+        let managerAnswers = await promptForManager();
+        let newManager = new Manager(employeeAnswers.name, employeeAnswers.email, employeeAnswers.id, employeeAnswers.role, managerAnswers.officeNum);
+        managersArr.push(newManager);
+    } else if (employeeAnswers.role==='Engineer') {
+        let engineerAnswers = await promptForEngineer();
+        let newEngineer = new Engineer(employeeAnswers.name, employeeAnswers.email, employeeAnswers.id, employeeAnswers.role, engineerAnswers.github);
+        engineersArr.push(newEngineer);
+    } else if (employeeAnswers.role==='Intern') {
+        let internAnswers = await promptForIntern();
+        let newIntern = new Intern(employeeAnswers.name, employeeAnswers.email, employeeAnswers.id, employeeAnswers.role, internAnswers.school);
+        internsArr.push(newIntern);
+    }
+    let lastEntryQuestion = await userInput();
+    if (!lastEntryQuestion.lastEntry) {
+        await handleEmployee();
+    } else if (lastEntryQuestion.lastEntry) {
+        return;
+    } else {
+        console.log('There has been an error. Please run the application again.');
+    }
+}
+
+handleEmployee();
 
 // const karen = new Manager('Karen', 'karen@email.com','1');
 // console.log(karen);
 
 
 module.exports = {
-    promptForManager,
     Manager,
     Intern,
-    Team,
     Employee,
     Engineer,
+    managersArr, 
+    engineersArr,
+    internsArr
 }
 
 // prompt for info
 // promptEmpInfo();
 // generate website with it
-

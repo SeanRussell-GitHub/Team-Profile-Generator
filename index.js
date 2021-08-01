@@ -1,4 +1,7 @@
-const { promptForManager } = require('./empHandlr');
+const empHandlr = require('./empHandlr');
+const managersArr = empHandlr.managersArr;
+const engineersArr = empHandlr.engineersArr;
+const internsArr = empHandlr.internsArr;
 
 async function init() {
     promptForManager();

@@ -1,18 +1,15 @@
+const empHandlr = require('./empHandlr');
+const managersArr = empHandlr.managersArr;
+const engineersArr = empHandlr.engineersArr;
+const internsArr = empHandlr.internsArr;
 
-function generateManagers(manager){
-    return `${manager.role}`;
-}
 
-function generateEngineers(engineer){
-    return `${engineer.role}`;
-}
-
-function generateInterns(intern){
-    return `${intern.role}`;
+function generateEmployees(employee){
+    return `<h1>${employee.role}<h1><ul><li>${employee.name}</li><li></li></ul>`;
 }
 
 
-function generateHTML(managers, engineers, interns){
+function generateHTML(manager, engineer, intern){
     return `<!DOCTYPE html>
     <html lang="en">
 <head>
@@ -25,15 +22,15 @@ function generateHTML(managers, engineers, interns){
     <header>
         <div>
             <h2>Manager</h2>
-            ${managers.map(generateManagers)}
+            ${manager.map(generateEmployees)}
         </div>
         <div>
             <h2>Engineers</h2> 
-            ${engineers.map(generateEngineers)}
+            ${engineer.map(generateEmployees)}
         </div>
         <div>
             <h2>Interns</h2> 
-            ${interns.map(generateInterns)}
+            ${intern.map(generateEmployees)}
         </div>
         </body>
 </html>    
@@ -43,8 +40,5 @@ function generateHTML(managers, engineers, interns){
 
 
 module.exports = {
-    generateManagers,
-    generateEngineers,
-    generateInterns,
     generateHTML
 }
