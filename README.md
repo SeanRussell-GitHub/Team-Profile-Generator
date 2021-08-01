@@ -16,7 +16,7 @@ This application uses the following NPM packages:
 #
 Please follow the link to a walkthrough video that demonstrates its functionality and all of the tests passing.
 ## Video link:
-### 
+### https://drive.google.com/file/d/1eJ75Ul832vTodxvIZYLlqUEqZvPX3BSg/view
 
 #
 ## Basic Requirements
